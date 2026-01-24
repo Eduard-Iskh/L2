@@ -14,7 +14,7 @@ type NewTime struct {
 	Precision time.Duration
 }
 
-// CurrentTime is func for task
+// CurrentTime is func for task 2
 func CurrentTime(network string) (*NewTime, error) {
 	resp := NewTime{}
 	if network == "" {
