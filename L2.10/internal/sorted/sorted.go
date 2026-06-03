@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"l210-sort/internal/compare"
 	cfg "l210-sort/internal/config"
+	"l210-sort/internal/dedup"
 	"l210-sort/internal/parse"
 	"l210-sort/internal/validate"
 	"sort"
@@ -27,12 +28,15 @@ func Sort(config cfg.Config, data [][]byte) []cfg.LineComp {
 	if config.N {
 		newMap = parse.ParseFloat(newMap)
 	}
-	newMap = Sorted(newMap, config)
-
 	if config.C {
 		if !validate.Validate(newMap, config) {
 			fmt.Println("Данные не отсортированы")
 		}
+	}
+
+	newMap = Sorted(newMap, config)
+	if config.U {
+		newMap = dedup.Unic(newMap, config)
 	}
 
 	return newMap

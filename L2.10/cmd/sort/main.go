@@ -32,7 +32,10 @@ func main() {
 	}
 
 	data := reader.Read(filename)
-
+	if len(data) == 0 {
+		fmt.Println("Пустой файл на входе")
+		return
+	}
 	config := cfg.NewConfig()
 
 	fmt.Println("\n===== CONFIG =====")
