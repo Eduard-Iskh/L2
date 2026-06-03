@@ -1,35 +1,16 @@
 package dedup
 
 import (
+	"l210-sort/internal/compare"
 	cfg "l210-sort/internal/config"
 )
 
-// unic удаляет повторяющиеся элементы.
-//
-// Уникальность определяется
-// по полю CompElemS.
-//
-// map используется как множество:
-// если ключ уже встречался —
-// элемент пропускается.
-
-func Unic(data []cfg.LineComp) []cfg.LineComp {
-	seen := make(map[string]bool, 0)
-
-	res := make([]cfg.LineComp, 0, len(data))
-
-	for _, value := range data {
-
-		// Если элемент ещё не встречался
-		if !seen[value.CompElemS] {
-
-			// Помечаем как встреченный
-			seen[value.CompElemS] = true
-
-			// Добавляем в результат
-			res = append(res, value)
+func Unic(data []cfg.LineComp, conf cfg.Config) []cfg.LineComp {
+	res := []cfg.LineComp{data[0]}
+	for i := 1; i < len(data); i++ {
+		if compare.Compare(data[i-1], data[i], conf) != 0 {
+			res = append(res, data[i])
 		}
 	}
-
 	return res
 }

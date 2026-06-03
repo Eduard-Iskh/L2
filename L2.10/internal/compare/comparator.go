@@ -1,16 +1,23 @@
-package sorted
+package compare
 
 import (
 	"l210-sort/internal/config"
 	"l210-sort/internal/parse"
+	"l210-sort/internal/sorted/month"
 	"strings"
 )
 
 func Compare(a, b config.LineComp, cfg config.Config) int {
+	aEl := a.CompElemS
+	bEl := b.CompElemS
+	if cfg.B {
+		aEl = strings.TrimLeft(aEl, " \t")
+		bEl = strings.TrimLeft(bEl, " \t")
+	}
 	switch {
 	case cfg.H:
-		aElem, okA := parse.ParseSuffix(a.CompElemS)
-		bElem, okB := parse.ParseSuffix(b.CompElemS)
+		aElem, okA := parse.ParseSuffix(aEl)
+		bElem, okB := parse.ParseSuffix(bEl)
 		if okA && okB {
 			switch {
 			case aElem < bElem:
@@ -26,17 +33,17 @@ func Compare(a, b config.LineComp, cfg config.Config) int {
 			return -1
 		} else {
 			switch {
-			case a.CompElemS < b.CompElemS:
+			case aEl < bEl:
 				return -1
-			case a.CompElemS > b.CompElemS:
+			case aEl > bEl:
 				return 1
 			default:
 				return 0
 			}
 		}
 	case cfg.M:
-		aElem, okA := month[strings.ToLower(a.CompElemS)]
-		bElem, okB := month[strings.ToLower(b.CompElemS)]
+		aElem, okA := month.Month[strings.ToLower(aEl)]
+		bElem, okB := month.Month[strings.ToLower(bEl)]
 		if okA && okB {
 			switch {
 			case aElem < bElem:
@@ -52,9 +59,9 @@ func Compare(a, b config.LineComp, cfg config.Config) int {
 			return -1
 		} else {
 			switch {
-			case a.CompElemS < b.CompElemS:
+			case aEl < bEl:
 				return -1
-			case a.CompElemS > b.CompElemS:
+			case aEl > bEl:
 				return 1
 			default:
 				return 0
@@ -77,18 +84,18 @@ func Compare(a, b config.LineComp, cfg config.Config) int {
 			return -1
 		} else {
 			switch {
-			case a.CompElemS < b.CompElemS:
+			case aEl < bEl:
 				return -1
-			case a.CompElemS > b.CompElemS:
+			case aEl > bEl:
 				return 1
 			default:
 				return 0
 			}
 		}
 	default:
-		if a.CompElemS > b.CompElemS {
+		if aEl < bEl {
 			return -1
-		} else if a.CompElemS < b.CompElemS {
+		} else if aEl > bEl {
 			return 1
 		}
 		return 0
