@@ -23,8 +23,6 @@ func Sorted(data []cfg.LineComp, config cfg.Config) []cfg.LineComp {
 // Sort функция
 func Sort(config cfg.Config, data [][]byte) []cfg.LineComp {
 	newMap := parse.Find(data, config.K)
-	raw := newMap
-	fmt.Println("\n", "raw = ", raw[0].Line, "\n", "end")
 	if config.N {
 		newMap = parse.ParseFloat(newMap)
 	}
